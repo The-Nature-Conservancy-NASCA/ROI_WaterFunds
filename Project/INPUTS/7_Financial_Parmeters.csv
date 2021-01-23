@@ -1,0 +1,16 @@
+ID,Cost,Value
+1,Transaction Cost (%),0.2
+2,Discount rate (%),0.05
+3,Sensitivity Analysis - Minimum Discount Rate (%),0.02
+4,Sensitivity Analysis - Maximum Discount Rate (%),0.09
+5,Carbon Cost (USD/TonCO2),1.5
+6,Program Director (Cost/yr),30000
+7,Monitoring and Evaluation Manager (Cost/yr),15000
+8,Finance and Administrator (Cost/yr),15000
+9,Implementation Manager (Cost/yr),15000
+10,Office Costs (Cost/yr),7000
+11,Travel (Cost/yr),5000
+12,Equipment (Cost/yr),5000
+13,Contracts (Cost/yr),5000
+14,Overhead (Cost/yr),4000
+15,Others (Cost/yr),0
