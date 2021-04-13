@@ -152,9 +152,23 @@ def ROI_Analisys(PathProject_ROI):
     Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Cost.csv'))
     Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Cost.csv'))
 
+    dict_result = dict()
+    dict_result["roi"] = ROI
+    dict_result["global_totals"] = Total_1
+    dict_result["process_sensitivity"] = Total_2
+    dict_result["nbs_sensitivity"] = Total_3
+    dict_result["implementation_costs"] = Total_4
+    dict_result["maintenance_costs"] = Total_5
+    dict_result["opportunity_costs"] = Total_6
+    dict_result["transaction_costs"] = Total_7
+    dict_result["platform_costs"] = Total_8
+    dict_result["cap_cost"] = Total_9
+    dict_result["ptap_cost"] = Total_10
+    
 
+    return dict_result
 # -----------------------------------------------------------------------------------
 # Tester
 # -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\jonathan.nogales\Music\ROI_WaterFunds\Project'
-ROI_Analisys(PathProject_ROI)
+# PathProject_ROI = r'C:\Users\jonathan.nogales\Music\ROI_WaterFunds\Project'
+# ROI_Analisys(PathProject_ROI)
