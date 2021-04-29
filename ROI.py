@@ -149,8 +149,8 @@ def ROI_Analisys(PathProject_ROI):
     Total_6.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6_Opportunity_Costs.csv'))
     Total_7.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','7_Transaction_Costs.csv'))
     Total_8.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','8_Platform_Costs.csv'))
-    Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Cost.csv'))
-    Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Cost.csv'))
+    Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Saves.csv'))
+    Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Saves.csv'))
 
 
 # -----------------------------------------------------------------------------------
