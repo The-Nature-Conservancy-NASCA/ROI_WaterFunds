@@ -142,8 +142,8 @@ def ROI_Analisys(PathProject_ROI):
 
     ROI.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','0_ROI_Sensitivity.csv'))
     Total_1.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','1_GlobalTotals.csv'))
-    Total_2.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2_Process_Sensitivity.csv'))
-    Total_3.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3_NBS_Sensitivity.csv'))
+    Total_2.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2_Benefit_Sensitivity.csv'))
+    Total_3.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3_Cost_Sensitivity.csv'))
     Total_4.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','4_Implementation_Costs.csv'))
     Total_5.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','5_Maintenance_Costs.csv'))
     Total_6.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6_Opportunity_Costs.csv'))
