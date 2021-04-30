@@ -94,6 +94,13 @@ def ROI_Analisys(PathProject_ROI):
     ROI_2 = TotalBenefit_1_TD_2.sum()/TotalBenefit_2_TD_2.sum()
     ROI_3 = TotalBenefit_1_TD_3.sum()/TotalBenefit_2_TD_3.sum()
 
+    # NPV - I, M, O, T, P
+    NPV_I = Cost_I.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+    NPV_M = Cost_M.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+    NPV_O = Cost_O.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+    NPV_T = Cost_T / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+    NPV_P = Cost_P.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+
     '''
     ####################################################################################################################
                                                     Guardar Resultados
@@ -128,6 +135,21 @@ def ROI_Analisys(PathProject_ROI):
     ROI['TD_Mean'] = ROI_1
     ROI['TD_Max']  = ROI_3
 
+    Cost: Implementation
+    Cost: Maintenance
+    Cost: Oportunity
+    Cost: Transaction
+    Cost: Platform
+
+    NPV = pd.DataFrame(data=np.zeros((1, 7)), columns=['Implementation', 'Maintenance', 'Oportunity', 'Transaction', 'Platform', 'Benefit', 'Total'])
+    NPV['Implementation']   = -1*NPV_I.sum()
+    NPV['Maintenance']      = -1*NPV_M.sum()
+    NPV['Oportunity']       = -1*NPV_O.sum()
+    NPV['Transaction']      = -1*NPV_T.sum()
+    NPV['Platform']         = -1*NPV_P.sum()
+    NPV['Benefit']          = TotalBenefit_1_TD_1.sum()
+    NPV['Total']            = NPV.sum(1)
+
     Total_4 = pd.DataFrame(data=Cost_I,columns=NameNBS,index=NameIndex)
     Total_5 = pd.DataFrame(data=Cost_M,columns=NameNBS,index=NameIndex)
     Total_6 = pd.DataFrame(data=Cost_O,columns=NameNBS,index=NameIndex)
@@ -151,10 +173,10 @@ def ROI_Analisys(PathProject_ROI):
     Total_8.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','8_Platform_Costs.csv'))
     Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Saves.csv'))
     Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Saves.csv'))
-
+    NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','11_NPV.csv'))
 
 # -----------------------------------------------------------------------------------
 # Tester
 # -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\jonathan.nogales\Music\ROI_WaterFunds\Project'
+PathProject_ROI = r'C:\Users\TNC\Box\01-TNC\28-Project-WaterFund_App\02-Productos-Intermedios\ROI_WaterFunds\Project'
 ROI_Analisys(PathProject_ROI)
