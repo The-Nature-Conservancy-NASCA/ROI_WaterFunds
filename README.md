@@ -1,4 +1,4 @@
-# RIO_WaterFunds
+# ROI_WaterFunds
 Este Script calcula el análisis ROI haciendo uso de los costos de las funciones de costo de los procesos del sistema de captación y PTAP, así como también, de los costos asociados a las NBS y a los mercados de carbono.
 
 Como parámetros de entra el código requiere los siguientes archivos:
@@ -113,6 +113,13 @@ A continuación, se describen cada uno de los archivos
         ROI_2 = TotalBenefit_1_TD_2.sum()/TotalBenefit_2_TD_2.sum()
         ROI_3 = TotalBenefit_1_TD_3.sum()/TotalBenefit_2_TD_3.sum()
 
+        # NPV - I, M, O, T, P
+        NPV_I = Cost_I.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+        NPV_M = Cost_M.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+        NPV_O = Cost_O.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+        NPV_T = Cost_T / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+        NPV_P = Cost_P.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+
         '''
         ####################################################################################################################
                                                         Guardar Resultados
@@ -147,6 +154,21 @@ A continuación, se describen cada uno de los archivos
         ROI['TD_Mean'] = ROI_1
         ROI['TD_Max']  = ROI_3
 
+        Cost: Implementation
+        Cost: Maintenance
+        Cost: Oportunity
+        Cost: Transaction
+        Cost: Platform
+
+        NPV = pd.DataFrame(data=np.zeros((1, 7)), columns=['Implementation', 'Maintenance', 'Oportunity', 'Transaction', 'Platform', 'Benefit', 'Total'])
+        NPV['Implementation']   = -1*NPV_I.sum()
+        NPV['Maintenance']      = -1*NPV_M.sum()
+        NPV['Oportunity']       = -1*NPV_O.sum()
+        NPV['Transaction']      = -1*NPV_T.sum()
+        NPV['Platform']         = -1*NPV_P.sum()
+        NPV['Benefit']          = TotalBenefit_1_TD_1.sum()
+        NPV['Total']            = NPV.sum(1)
+
         Total_4 = pd.DataFrame(data=Cost_I,columns=NameNBS,index=NameIndex)
         Total_5 = pd.DataFrame(data=Cost_M,columns=NameNBS,index=NameIndex)
         Total_6 = pd.DataFrame(data=Cost_O,columns=NameNBS,index=NameIndex)
@@ -161,19 +183,19 @@ A continuación, se describen cada uno de los archivos
 
         ROI.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','0_ROI_Sensitivity.csv'))
         Total_1.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','1_GlobalTotals.csv'))
-        Total_2.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2_Process_Sensitivity.csv'))
-        Total_3.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3_NBS_Sensitivity.csv'))
+        Total_2.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2_Benefit_Sensitivity.csv'))
+        Total_3.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3_Cost_Sensitivity.csv'))
         Total_4.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','4_Implementation_Costs.csv'))
         Total_5.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','5_Maintenance_Costs.csv'))
         Total_6.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6_Opportunity_Costs.csv'))
         Total_7.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','7_Transaction_Costs.csv'))
         Total_8.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','8_Platform_Costs.csv'))
-        Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Cost.csv'))
-        Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Cost.csv'))
-
+        Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Saves.csv'))
+        Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Saves.csv'))
+        NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','11_NPV.csv'))
 
     # -----------------------------------------------------------------------------------
     # Tester
     # -----------------------------------------------------------------------------------
-    PathProject_ROI = r'C:\Users\jonathan.nogales\Music\ROI_WaterFunds\Project'
+    PathProject_ROI = r'C:\Users\TNC\Box\01-TNC\28-Project-WaterFund_App\02-Productos-Intermedios\ROI_WaterFunds\Project'
     ROI_Analisys(PathProject_ROI)
