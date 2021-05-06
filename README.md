@@ -11,8 +11,8 @@ Como parámetros de entra el código requiere los siguientes archivos:
 - 6_Porfolio_NBS.csv
 - 7_Financial_Parmeters.csv
 - 8_Time.csv
-- 9-OUTPUTS_BaU.csv
-- 10-OUTPUTS_NBS.csv
+- 9-CO2_BaU.csv
+- 10-CO2_NBS.csv
 
 A continuación, se describen cada uno de los archivos
 
@@ -40,8 +40,8 @@ A continuación, se describen cada uno de los archivos
         Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','6_Porfolio_NBS.csv'))
         TD              = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','7_Financial_Parmeters.csv'))
         TimeAnalisys    = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','8_Time.csv'))
-        C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','9-OUTPUTS_BaU.csv'))
-        C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','10-OUTPUTS_NBS.csv'))
+        C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','9-CO2_BaU.csv'))
+        C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','10-CO2_NBS.csv'))
 
         # Calculo de Beneficio - Total
         Benefit_Cap     = CostFunBaU_Cap.values[:,2:].T - CostFunNBS_Cap.values[:,2:].T
@@ -93,7 +93,7 @@ A continuación, se describen cada uno de los archivos
 
         # Carbons
         Factor  = 44/12 #44 g/mol CO2 - 12 g/mol C
-        Carbons = Factor*(C_NBS['WC (Ton)'] - C_BaU['WC (Ton)'])*TD['Value'][5]
+        Carbons = Factor*(C_NBS.sum(1) - C_BaU.sum(1))*TD['Value'][5]
         Carbons = Carbons.values[1:]
 
         # Total de costo de procesos + Carbono
@@ -154,12 +154,6 @@ A continuación, se describen cada uno de los archivos
         ROI['TD_Mean'] = ROI_1
         ROI['TD_Max']  = ROI_3
 
-        Cost: Implementation
-        Cost: Maintenance
-        Cost: Oportunity
-        Cost: Transaction
-        Cost: Platform
-
         NPV = pd.DataFrame(data=np.zeros((1, 7)), columns=['Implementation', 'Maintenance', 'Oportunity', 'Transaction', 'Platform', 'Benefit', 'Total'])
         NPV['Implementation']   = -1*NPV_I.sum()
         NPV['Maintenance']      = -1*NPV_M.sum()
@@ -193,7 +187,7 @@ A continuación, se describen cada uno de los archivos
         Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Saves.csv'))
         Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Saves.csv'))
         NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','11_NPV.csv'))
-
+        
     # -----------------------------------------------------------------------------------
     # Tester
     # -----------------------------------------------------------------------------------
