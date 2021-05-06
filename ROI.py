@@ -21,8 +21,8 @@ def ROI_Analisys(PathProject_ROI):
     Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','6_Porfolio_NBS.csv'))
     TD              = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','7_Financial_Parmeters.csv'))
     TimeAnalisys    = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','8_Time.csv'))
-    C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','9-OUTPUTS_BaU.csv'))
-    C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','10-OUTPUTS_NBS.csv'))
+    C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','9-CO2_BaU.csv'))
+    C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','10-CO2_NBS.csv'))
 
     # Calculo de Beneficio - Total
     Benefit_Cap     = CostFunBaU_Cap.values[:,2:].T - CostFunNBS_Cap.values[:,2:].T
@@ -74,7 +74,7 @@ def ROI_Analisys(PathProject_ROI):
 
     # Carbons
     Factor  = 44/12 #44 g/mol CO2 - 12 g/mol C
-    Carbons = Factor*(C_NBS['WC (Ton)'] - C_BaU['WC (Ton)'])*TD['Value'][5]
+    Carbons = Factor*(C_NBS.sum(1) - C_BaU.sum(1))*TD['Value'][5]
     Carbons = Carbons.values[1:]
 
     # Total de costo de procesos + Carbono
@@ -135,12 +135,6 @@ def ROI_Analisys(PathProject_ROI):
     ROI['TD_Mean'] = ROI_1
     ROI['TD_Max']  = ROI_3
 
-    Cost: Implementation
-    Cost: Maintenance
-    Cost: Oportunity
-    Cost: Transaction
-    Cost: Platform
-
     NPV = pd.DataFrame(data=np.zeros((1, 7)), columns=['Implementation', 'Maintenance', 'Oportunity', 'Transaction', 'Platform', 'Benefit', 'Total'])
     NPV['Implementation']   = -1*NPV_I.sum()
     NPV['Maintenance']      = -1*NPV_M.sum()
@@ -178,5 +172,5 @@ def ROI_Analisys(PathProject_ROI):
 # -----------------------------------------------------------------------------------
 # Tester
 # -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\TNC\Box\01-TNC\28-Project-WaterFund_App\02-Productos-Intermedios\ROI_WaterFunds\Project'
+PathProject_ROI = r'C:\Users\TNC\Documents\ROI_WaterFunds\Project'
 ROI_Analisys(PathProject_ROI)
