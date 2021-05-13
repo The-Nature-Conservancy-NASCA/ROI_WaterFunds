@@ -15,7 +15,7 @@ INPUTS
 - 9-CO2_BaU.csv
 - 10-CO2_NBS.csv
 
-OUTPUTS (.0 Sin TD; .1 - TD Mínima; .2 - TD medio; .3 TD Máxima) 
+OUTPUTS (.0 Sin TD; .1 - TD Mínima; .2 - TD Media; .3 TD Máxima) 
 - 1.0_Implementation_Costs.csv
 - 1.1_Implementation_Costs.csv
 - 1.2_Implementation_Costs.csv
