@@ -78,13 +78,13 @@ def ROI_Analisys(PathProject_ROI):
     Carbons = Carbons.values[1:]
 
     # Total de costo de procesos + Carbono
-    TotalBenefit_1    = np.sum(Benefit_Cap,1) + np.sum(Benefit_PTAP,1) + Carbons
+    TotalBenefit_1      = np.sum(Benefit_Cap,1) + np.sum(Benefit_PTAP,1) + Carbons
     TotalBenefit_1_TD_1 = TotalBenefit_1/((1 + TD['Value'][2])**np.arange(1,31))
     TotalBenefit_1_TD_2 = TotalBenefit_1/((1 + TD['Value'][3])**np.arange(1,31))
     TotalBenefit_1_TD_3 = TotalBenefit_1/((1 + TD['Value'][4])**np.arange(1,31))
 
     # Total de costo de NBS
-    TotalBenefit_2    = Cost_M.sum(1) + Cost_T + Cost_O.sum(1) + Cost_I.sum(1) + Cost_P.sum(1)
+    TotalBenefit_2       = Cost_M.sum(1) + Cost_T + Cost_O.sum(1) + Cost_I.sum(1) + Cost_P.sum(1)
     TotalBenefit_2_TD_1  = TotalBenefit_2/((1 + TD['Value'][2])**np.arange(1,31))
     TotalBenefit_2_TD_2  = TotalBenefit_2/((1 + TD['Value'][3])**np.arange(1,31))
     TotalBenefit_2_TD_3  = TotalBenefit_2/((1 + TD['Value'][4])**np.arange(1,31))
@@ -146,30 +146,102 @@ def ROI_Analisys(PathProject_ROI):
 
     Total_2 = Total_2.set_index(np.arange(0, t_roi) + 1)
     Total_3 = Total_3.set_index(np.arange(0, t_roi) + 1)
-    Total_4 = pd.DataFrame(data=Cost_I,columns=NameNBS,index=NameIndex)
-    Total_5 = pd.DataFrame(data=Cost_M,columns=NameNBS,index=NameIndex)
-    Total_6 = pd.DataFrame(data=Cost_O,columns=NameNBS,index=NameIndex)
-    Total_7 = pd.DataFrame(data=Cost_T,columns=['Cost'],index=NameIndex)
-    Total_8 = pd.DataFrame(data=Cost_P,columns=TD['Cost'][5:],index=NameIndex)
 
-    Total_9 = CostFunBaU_Cap.groupby(by='Process').sum() - CostFunNBS_Cap.groupby(by='Process').sum()
-    del Total_9['Cost_Function']
+    Total_4_0 = pd.DataFrame(data=Cost_I,columns=NameNBS,index=NameIndex)
+    Total_5_0 = pd.DataFrame(data=Cost_M,columns=NameNBS,index=NameIndex)
+    Total_6_0 = pd.DataFrame(data=Cost_O,columns=NameNBS,index=NameIndex)
+    Total_7_0 = pd.DataFrame(data=Cost_T,columns=['Cost'],index=NameIndex)
+    Total_8_0 = pd.DataFrame(data=Cost_P,columns=TD['Cost'][5:],index=NameIndex)
 
-    Total_10 = CostFunBaU_PTAP.groupby(by='Process').sum() - CostFunNBS_PTAP.groupby(by='Process').sum()
-    del Total_10['Cost_Function']
+    Total_9_0 = CostFunBaU_Cap.groupby(by='Process').sum() - CostFunNBS_Cap.groupby(by='Process').sum()
+    del Total_9_0['Cost_Function']
 
-    ROI.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','0_ROI_Sensitivity.csv'))
-    Total_1.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','1_GlobalTotals.csv'),index_label='Time')
-    Total_2.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2_Benefit_Sensitivity.csv'),index_label='Time')
-    Total_3.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3_Cost_Sensitivity.csv'),index_label='Time')
-    Total_4.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','4_Implementation_Costs.csv'),index_label='Time')
-    Total_5.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','5_Maintenance_Costs.csv'),index_label='Time')
-    Total_6.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6_Opportunity_Costs.csv'),index_label='Time')
-    Total_7.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','7_Transaction_Costs.csv'),index_label='Time')
-    Total_8.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','8_Platform_Costs.csv'),index_label='Time')
-    Total_9.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','9_Cap_Saves.csv'))
-    Total_10.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','10_PTAP_Saves.csv'))
-    NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','11_NPV.csv'))
+    Total_10_0 = CostFunBaU_PTAP.groupby(by='Process').sum() - CostFunNBS_PTAP.groupby(by='Process').sum()
+    del Total_10_0['Cost_Function']
+
+    Total_11_0 = pd.DataFrame(data=Carbons,columns=['Carbons'],index=NameIndex)
+
+    # TD min
+    Total_4_1  = Total_4_0 / ((1 + (np.ones(Total_4_0.shape)*TD['Value'][3]))**np.tile(np.arange(1,31),(Total_4_0.shape[1],1)).transpose())
+    Total_5_1  = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_1  = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_1  = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_1  = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_1  = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
+    Total_10_1 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
+    Total_11_1 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+
+    #C1 = Total_4_1.sum(1) + Total_5_1.sum(1) + Total_6_1.sum(1) + Total_7_1.sum(1) + Total_8_1.sum(1)
+    #B1 = Total_9_1.sum().values + Total_10_1.sum().values + np.reshape(Total_11_1.values,(1,30))[0]
+
+    # TD Mean
+    Total_4_2 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_4_0.shape[1], 1)).transpose())
+    Total_5_2 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_2 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_2 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_2 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_2 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
+    Total_10_2 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
+    Total_11_2 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+
+    #C2 = Total_4_2.sum(1) + Total_5_2.sum(1) + Total_6_2.sum(1) + Total_7_2.sum(1) + Total_8_2.sum(1)
+    #B2 = Total_9_2.sum() + Total_10_2.sum() + np.reshape(Total_11_2.values,(1,30))[0]
+
+    # TD max
+    Total_4_3 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_4_0.shape[1], 1)).transpose())
+    Total_5_3 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_3 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_3 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_3 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_3 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
+    Total_10_3 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
+    Total_11_3 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+
+    #C3 = Total_4_3.sum(1) + Total_5_3.sum(1) + Total_6_3.sum(1) + Total_7_3.sum(1) + Total_8_3.sum(1)
+    #B3 = Total_9_3.sum() + Total_10_3.sum() + np.reshape(Total_11_3.values,(1,30))[0]
+
+    Total_4_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','1.0_Implementation_Costs.csv'),index_label='Time')
+    Total_5_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2.0_Maintenance_Costs.csv'),index_label='Time')
+    Total_6_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3.0_Opportunity_Costs.csv'),index_label='Time')
+    Total_7_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','4.0_Transaction_Costs.csv'),index_label='Time')
+    Total_8_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','5.0_Platform_Costs.csv'),index_label='Time')
+    Total_9_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6.0_Cap_Saves.csv'))
+    Total_10_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','7.0_PTAP_Saves.csv'))
+    Total_11_0.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.0_Carbons_Saves.csv'))
+
+    Total_4_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.1_Implementation_Costs.csv'), index_label='Time')
+    Total_5_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.1_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.1_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.1_Transaction_Costs.csv'), index_label='Time')
+    Total_8_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.1_Platform_Costs.csv'), index_label='Time')
+    Total_9_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.1_Cap_Saves.csv'))
+    Total_10_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.1_PTAP_Saves.csv'))
+    Total_11_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.1_Carbons_Saves.csv'))
+
+    Total_4_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.2_Implementation_Costs.csv'), index_label='Time')
+    Total_5_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.2_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.2_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.2_Transaction_Costs.csv'), index_label='Time')
+    Total_8_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.2_Platform_Costs.csv'), index_label='Time')
+    Total_9_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.2_Cap_Saves.csv'))
+    Total_10_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.2_PTAP_Saves.csv'))
+    Total_11_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.2_Carbons_Saves.csv'))
+
+    Total_4_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.3_Implementation_Costs.csv'), index_label='Time')
+    Total_5_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.3_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.3_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.3_Transaction_Costs.csv'), index_label='Time')
+    Total_8_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.3_Platform_Costs.csv'), index_label='Time')
+    Total_9_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.3_Cap_Saves.csv'))
+    Total_10_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.3_PTAP_Saves.csv'))
+    Total_11_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.3_Carbons_Saves.csv'))
+
+    Total_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '9_GlobalTotals.csv'), index_label='Time')
+    Total_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '10_Benefit_Sensitivity.csv'), index_label='Time')
+    Total_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '11_Cost_Sensitivity.csv'), index_label='Time')
+    ROI.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '12_ROI_Sensitivity.csv'))
+    NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','13_NPV.csv'))
+
 
 # -----------------------------------------------------------------------------------
 # Tester
