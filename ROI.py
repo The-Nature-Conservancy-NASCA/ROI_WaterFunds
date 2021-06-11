@@ -56,7 +56,7 @@ def ROI_Analisys(PathProject_ROI):
     for j in range(0,t_nbs):
         Tmp1 = np.zeros((t_roi, n_nbs))
         for i in range(0,n_nbs):
-            Posi = np.arange(j,t_roi,CostNBS[3:].values[0][i])
+            Posi = np.arange(j,int(t_roi),int(CostNBS[3:].values[0][i]))
             Tmp1[Posi,i] = 1
 
         Cost_M = Cost_M + Tmp1*Porfolio.values[j,:]*CostNBS.values[1,:]
