@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 from numpy.core._multiarray_umath import ndarray
 
+INPUTS = 'in'
+OUTPUTS = 'out'
 
 def ROI_Analisys(PathProject_ROI):
     '''
@@ -13,16 +15,16 @@ def ROI_Analisys(PathProject_ROI):
     ####################################################################################################################
     '''
     # Leer Archivos de entrada
-    CostFunNBS_Cap  = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','1_CostFunction_NBS_Cap.csv'))
-    CostFunBaU_Cap  = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','2_CostFunction_BaU_Cap.csv'))
-    CostFunNBS_PTAP = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','3_CostFunction_NBS_PTAP.csv'))
-    CostFunBaU_PTAP = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','4_CostFunction_BaU_PTAP.csv'))
-    CostNBS         = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','5_NBS_Cost.csv'))
-    Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','6_Porfolio_NBS.csv'))
-    TD              = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','7_Financial_Parmeters.csv'))
-    TimeAnalisys    = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','8_Time.csv'))
-    C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','9-CO2_BaU.csv'))
-    C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,'INPUTS','10-CO2_NBS.csv'))
+    CostFunNBS_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'1_CostFunction_NBS_Cap.csv'))
+    CostFunBaU_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'2_CostFunction_BaU_Cap.csv'))
+    CostFunNBS_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'3_CostFunction_NBS_PTAP.csv'))
+    CostFunBaU_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'4_CostFunction_BaU_PTAP.csv'))
+    CostNBS         = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'5_NBS_Cost.csv'))
+    Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'6_Porfolio_NBS.csv'))
+    TD              = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'7_Financial_Parmeters.csv'))
+    TimeAnalisys    = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'8_Time.csv'))
+    C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'9-CO2_BaU.csv'))
+    C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'10-CO2_NBS.csv'))
 
     # Calculo de Beneficio - Total
     Benefit_Cap     = CostFunBaU_Cap.values[:,2:].T - CostFunNBS_Cap.values[:,2:].T
@@ -200,47 +202,47 @@ def ROI_Analisys(PathProject_ROI):
     #C3 = Total_4_3.sum(1) + Total_5_3.sum(1) + Total_6_3.sum(1) + Total_7_3.sum(1) + Total_8_3.sum(1)
     #B3 = Total_9_3.sum() + Total_10_3.sum() + np.reshape(Total_11_3.values,(1,30))[0]
 
-    Total_4_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','1.0_Implementation_Costs.csv'),index_label='Time')
-    Total_5_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','2.0_Maintenance_Costs.csv'),index_label='Time')
-    Total_6_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','3.0_Opportunity_Costs.csv'),index_label='Time')
-    Total_7_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','4.0_Transaction_Costs.csv'),index_label='Time')
-    Total_8_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','5.0_Platform_Costs.csv'),index_label='Time')
-    Total_9_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','6.0_Cap_Saves.csv'))
-    Total_10_0.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','7.0_PTAP_Saves.csv'))
-    Total_11_0.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.0_Carbons_Saves.csv'))
+    Total_4_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'1.0_Implementation_Costs.csv'),index_label='Time')
+    Total_5_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'2.0_Maintenance_Costs.csv'),index_label='Time')
+    Total_6_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'3.0_Opportunity_Costs.csv'),index_label='Time')
+    Total_7_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'4.0_Transaction_Costs.csv'),index_label='Time')
+    Total_8_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'5.0_Platform_Costs.csv'),index_label='Time')
+    Total_9_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'6.0_Cap_Saves.csv'))
+    Total_10_0.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'7.0_PTAP_Saves.csv'))
+    Total_11_0.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '8.0_Carbons_Saves.csv'))
 
-    Total_4_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.1_Implementation_Costs.csv'), index_label='Time')
-    Total_5_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.1_Maintenance_Costs.csv'), index_label='Time')
-    Total_6_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.1_Opportunity_Costs.csv'), index_label='Time')
-    Total_7_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.1_Transaction_Costs.csv'), index_label='Time')
-    Total_8_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.1_Platform_Costs.csv'), index_label='Time')
-    Total_9_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.1_Cap_Saves.csv'))
-    Total_10_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.1_PTAP_Saves.csv'))
-    Total_11_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.1_Carbons_Saves.csv'))
+    Total_4_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '1.1_Implementation_Costs.csv'), index_label='Time')
+    Total_5_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '2.1_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '3.1_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '4.1_Transaction_Costs.csv'), index_label='Time')
+    Total_8_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '5.1_Platform_Costs.csv'), index_label='Time')
+    Total_9_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '6.1_Cap_Saves.csv'))
+    Total_10_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '7.1_PTAP_Saves.csv'))
+    Total_11_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '8.1_Carbons_Saves.csv'))
 
-    Total_4_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.2_Implementation_Costs.csv'), index_label='Time')
-    Total_5_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.2_Maintenance_Costs.csv'), index_label='Time')
-    Total_6_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.2_Opportunity_Costs.csv'), index_label='Time')
-    Total_7_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.2_Transaction_Costs.csv'), index_label='Time')
-    Total_8_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.2_Platform_Costs.csv'), index_label='Time')
-    Total_9_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.2_Cap_Saves.csv'))
-    Total_10_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.2_PTAP_Saves.csv'))
-    Total_11_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.2_Carbons_Saves.csv'))
+    Total_4_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '1.2_Implementation_Costs.csv'), index_label='Time')
+    Total_5_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '2.2_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '3.2_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '4.2_Transaction_Costs.csv'), index_label='Time')
+    Total_8_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '5.2_Platform_Costs.csv'), index_label='Time')
+    Total_9_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '6.2_Cap_Saves.csv'))
+    Total_10_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '7.2_PTAP_Saves.csv'))
+    Total_11_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '8.2_Carbons_Saves.csv'))
 
-    Total_4_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '1.3_Implementation_Costs.csv'), index_label='Time')
-    Total_5_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '2.3_Maintenance_Costs.csv'), index_label='Time')
-    Total_6_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '3.3_Opportunity_Costs.csv'), index_label='Time')
-    Total_7_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '4.3_Transaction_Costs.csv'), index_label='Time')
-    Total_8_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '5.3_Platform_Costs.csv'), index_label='Time')
-    Total_9_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '6.3_Cap_Saves.csv'))
-    Total_10_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '7.3_PTAP_Saves.csv'))
-    Total_11_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '8.3_Carbons_Saves.csv'))
+    Total_4_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '1.3_Implementation_Costs.csv'), index_label='Time')
+    Total_5_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '2.3_Maintenance_Costs.csv'), index_label='Time')
+    Total_6_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '3.3_Opportunity_Costs.csv'), index_label='Time')
+    Total_7_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '4.3_Transaction_Costs.csv'), index_label='Time')
+    Total_8_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '5.3_Platform_Costs.csv'), index_label='Time')
+    Total_9_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '6.3_Cap_Saves.csv'))
+    Total_10_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '7.3_PTAP_Saves.csv'))
+    Total_11_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '8.3_Carbons_Saves.csv'))
 
-    Total_1.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '9_GlobalTotals.csv'), index_label='Time')
-    Total_2.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '10_Benefit_Sensitivity.csv'), index_label='Time')
-    Total_3.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '11_Cost_Sensitivity.csv'), index_label='Time')
-    ROI.to_csv(os.path.join(PathProject_ROI, 'OUTPUTS', '12_ROI_Sensitivity.csv'))
-    NPV.to_csv(os.path.join(PathProject_ROI,'OUTPUTS','13_NPV.csv'))
+    Total_1.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '9_GlobalTotals.csv'), index_label='Time')
+    Total_2.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '10_Benefit_Sensitivity.csv'), index_label='Time')
+    Total_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '11_Cost_Sensitivity.csv'), index_label='Time')
+    ROI.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '12_ROI_Sensitivity.csv'))
+    NPV.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'13_NPV.csv'))
 
 
 # -----------------------------------------------------------------------------------
