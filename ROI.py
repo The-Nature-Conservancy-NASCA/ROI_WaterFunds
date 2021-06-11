@@ -81,15 +81,15 @@ def ROI_Analisys(PathProject_ROI):
 
     # Total de costo de procesos + Carbono
     TotalBenefit_1      = np.sum(Benefit_Cap,1) + np.sum(Benefit_PTAP,1) + Carbons
-    TotalBenefit_1_TD_1 = TotalBenefit_1/((1 + TD['Value'][2])**np.arange(1,31))
-    TotalBenefit_1_TD_2 = TotalBenefit_1/((1 + TD['Value'][3])**np.arange(1,31))
-    TotalBenefit_1_TD_3 = TotalBenefit_1/((1 + TD['Value'][4])**np.arange(1,31))
+    TotalBenefit_1_TD_1 = TotalBenefit_1/((1 + TD['Value'][2])**np.arange(1,t_roi + 1))
+    TotalBenefit_1_TD_2 = TotalBenefit_1/((1 + TD['Value'][3])**np.arange(1,t_roi + 1))
+    TotalBenefit_1_TD_3 = TotalBenefit_1/((1 + TD['Value'][4])**np.arange(1,t_roi + 1))
 
     # Total de costo de NBS
     TotalBenefit_2       = Cost_M.sum(1) + Cost_T + Cost_O.sum(1) + Cost_I.sum(1) + Cost_P.sum(1)
-    TotalBenefit_2_TD_1  = TotalBenefit_2/((1 + TD['Value'][2])**np.arange(1,31))
-    TotalBenefit_2_TD_2  = TotalBenefit_2/((1 + TD['Value'][3])**np.arange(1,31))
-    TotalBenefit_2_TD_3  = TotalBenefit_2/((1 + TD['Value'][4])**np.arange(1,31))
+    TotalBenefit_2_TD_1  = TotalBenefit_2/((1 + TD['Value'][2])**np.arange(1,t_roi + 1))
+    TotalBenefit_2_TD_2  = TotalBenefit_2/((1 + TD['Value'][3])**np.arange(1,t_roi + 1))
+    TotalBenefit_2_TD_3  = TotalBenefit_2/((1 + TD['Value'][4])**np.arange(1,t_roi + 1))
 
     ROI_0 = TotalBenefit_1.sum()/TotalBenefit_2.sum()
     ROI_1 = TotalBenefit_1_TD_1.sum()/TotalBenefit_2_TD_1.sum()
@@ -97,11 +97,11 @@ def ROI_Analisys(PathProject_ROI):
     ROI_3 = TotalBenefit_1_TD_3.sum()/TotalBenefit_2_TD_3.sum()
 
     # NPV - I, M, O, T, P
-    NPV_I = Cost_I.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
-    NPV_M = Cost_M.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
-    NPV_O = Cost_O.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
-    NPV_T = Cost_T / ((1 + TD['Value'][2]) ** np.arange(1, 31))
-    NPV_P = Cost_P.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, 31))
+    NPV_I = Cost_I.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, t_roi + 1))
+    NPV_M = Cost_M.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, t_roi + 1))
+    NPV_O = Cost_O.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, t_roi + 1))
+    NPV_T = Cost_T / ((1 + TD['Value'][2]) ** np.arange(1, t_roi + 1))
+    NPV_P = Cost_P.sum(1) / ((1 + TD['Value'][2]) ** np.arange(1, t_roi + 1))
 
     '''
     ####################################################################################################################
@@ -164,40 +164,40 @@ def ROI_Analisys(PathProject_ROI):
     Total_11_0 = pd.DataFrame(data=Carbons,columns=['Carbons'],index=NameIndex)
 
     # TD min
-    Total_4_1  = Total_4_0 / ((1 + (np.ones(Total_4_0.shape)*TD['Value'][3]))**np.tile(np.arange(1,31),(Total_4_0.shape[1],1)).transpose())
-    Total_5_1  = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
-    Total_6_1  = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
-    Total_7_1  = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
-    Total_8_1  = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
-    Total_9_1  = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
-    Total_10_1 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
-    Total_11_1 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+    Total_4_1  = Total_4_0 / ((1 + (np.ones(Total_4_0.shape)*TD['Value'][3]))**np.tile(np.arange(1,t_roi + 1),(Total_4_0.shape[1],1)).transpose())
+    Total_5_1  = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_1  = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_1  = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_1  = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_1  = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_9_0.shape[0], 1)))
+    Total_10_1 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_10_0.shape[0], 1)))
+    Total_11_1 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][3])) ** np.tile(np.arange(1, t_roi + 1), (Total_11_0.shape[1], 1)).transpose())
 
     #C1 = Total_4_1.sum(1) + Total_5_1.sum(1) + Total_6_1.sum(1) + Total_7_1.sum(1) + Total_8_1.sum(1)
     #B1 = Total_9_1.sum().values + Total_10_1.sum().values + np.reshape(Total_11_1.values,(1,30))[0]
 
     # TD Mean
-    Total_4_2 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_4_0.shape[1], 1)).transpose())
-    Total_5_2 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
-    Total_6_2 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
-    Total_7_2 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
-    Total_8_2 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
-    Total_9_2 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
-    Total_10_2 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
-    Total_11_2 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+    Total_4_2 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_4_0.shape[1], 1)).transpose())
+    Total_5_2 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_2 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_2 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_2 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_2 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_9_0.shape[0], 1)))
+    Total_10_2 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_10_0.shape[0], 1)))
+    Total_11_2 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][2])) ** np.tile(np.arange(1, t_roi + 1), (Total_11_0.shape[1], 1)).transpose())
 
     #C2 = Total_4_2.sum(1) + Total_5_2.sum(1) + Total_6_2.sum(1) + Total_7_2.sum(1) + Total_8_2.sum(1)
     #B2 = Total_9_2.sum() + Total_10_2.sum() + np.reshape(Total_11_2.values,(1,30))[0]
 
     # TD max
-    Total_4_3 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_4_0.shape[1], 1)).transpose())
-    Total_5_3 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_5_0.shape[1], 1)).transpose())
-    Total_6_3 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_6_0.shape[1], 1)).transpose())
-    Total_7_3 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_7_0.shape[1], 1)).transpose())
-    Total_8_3 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_8_0.shape[1], 1)).transpose())
-    Total_9_3 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_9_0.shape[0], 1)))
-    Total_10_3 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_10_0.shape[0], 1)))
-    Total_11_3 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, 31), (Total_11_0.shape[1], 1)).transpose())
+    Total_4_3 = Total_4_0 / ((1 + (np.ones(Total_4_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_4_0.shape[1], 1)).transpose())
+    Total_5_3 = Total_5_0 / ((1 + (np.ones(Total_5_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_5_0.shape[1], 1)).transpose())
+    Total_6_3 = Total_6_0 / ((1 + (np.ones(Total_6_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_6_0.shape[1], 1)).transpose())
+    Total_7_3 = Total_7_0 / ((1 + (np.ones(Total_7_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_7_0.shape[1], 1)).transpose())
+    Total_8_3 = Total_8_0 / ((1 + (np.ones(Total_8_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_8_0.shape[1], 1)).transpose())
+    Total_9_3 = Total_9_0 / ((1 + (np.ones(Total_9_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_9_0.shape[0], 1)))
+    Total_10_3 = Total_10_0 / ((1 + (np.ones(Total_10_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_10_0.shape[0], 1)))
+    Total_11_3 = Total_11_0 / ((1 + (np.ones(Total_11_0.shape) * TD['Value'][4])) ** np.tile(np.arange(1, t_roi + 1), (Total_11_0.shape[1], 1)).transpose())
 
     #C3 = Total_4_3.sum(1) + Total_5_3.sum(1) + Total_6_3.sum(1) + Total_7_3.sum(1) + Total_8_3.sum(1)
     #B3 = Total_9_3.sum() + Total_10_3.sum() + np.reshape(Total_11_3.values,(1,30))[0]
