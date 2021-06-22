@@ -3,7 +3,7 @@ ID,Cost,Value
 2,Discount rate (%),0.05
 3,Sensitivity Analysis - Minimum Discount Rate (%),0.02
 4,Sensitivity Analysis - Maximum Discount Rate (%),0.09
-5,Carbon Cost (USD/TonCO2),1.5
+5,Carbon Cost (Cost/TonCO2),1.5
 6,Program Director (Cost/yr),30000
 7,Monitoring and Evaluation Manager (Cost/yr),15000
 8,Finance and Administrator (Cost/yr),15000
