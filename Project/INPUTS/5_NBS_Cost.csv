@@ -1,5 +1,5 @@
 Parameters,NBS-1,NBS-2,NBS-3
-Implementation (USD/ha),120,1200,300
-Maintenance (USD/ha),30,90,75
-Opportunity (USD/ha-yr),10,5,5
+Implementation (Cost/ha),120,1200,300
+Maintenance (Cost/ha),30,90,75
+Opportunity (Cost/ha-yr),10,5,5
 Maintenance Time (yr),1,2,1
