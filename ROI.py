@@ -14,11 +14,31 @@ def ROI_Analisys(PathProject_ROI):
                                                     Leer Archivos de entrada
     ####################################################################################################################
     '''
+
     # Leer Archivos de entrada
-    CostFunNBS_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'1_CostFunction_NBS_Cap.csv'))
-    CostFunBaU_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'2_CostFunction_BaU_Cap.csv'))
-    CostFunNBS_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'3_CostFunction_NBS_PTAP.csv'))
-    CostFunBaU_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'4_CostFunction_BaU_PTAP.csv'))
+    Value = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '1_CostFunction_NBS_Cap.csv'))
+    if Value:
+        CostFunNBS_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'1_CostFunction_NBS_Cap.csv'))
+        CostFunBaU_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'2_CostFunction_BaU_Cap.csv'))
+
+        Value1 = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
+        if Value1:
+            CostFunNBS_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
+            CostFunBaU_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '4_CostFunction_BaU_PTAP.csv'))
+        else:
+            CostFunNBS_PTAP = CostFunNBS_Cap * 0
+            CostFunNBS_PTAP['Process'] = 'PTAP_NoData'
+            CostFunNBS_PTAP['Cost_Function'] = 0
+            CostFunBaU_PTAP = CostFunNBS_PTAP
+    else:
+        CostFunNBS_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'3_CostFunction_NBS_PTAP.csv'))
+        CostFunBaU_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'4_CostFunction_BaU_PTAP.csv'))
+
+        CostFunNBS_Cap  = CostFunNBS_PTAP*0
+        CostFunNBS_Cap['Process'] = 'Intake_NoData'
+        CostFunNBS_Cap['Cost_Function'] = 0
+        CostFunBaU_Cap  = CostFunNBS_Cap
+
     CostNBS         = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'5_NBS_Cost.csv'))
     Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'6_Porfolio_NBS.csv'))
     TD              = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'7_Financial_Parmeters.csv'))
@@ -248,5 +268,5 @@ def ROI_Analisys(PathProject_ROI):
 # -----------------------------------------------------------------------------------
 # Tester
 # -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\TNC\Documents\ROI_WaterFunds\Project'
+PathProject_ROI = r'C:\Users\TNC\Desktop\Project'
 ROI_Analisys(PathProject_ROI)
