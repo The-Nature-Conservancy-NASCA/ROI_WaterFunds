@@ -16,35 +16,78 @@ def ROI_Analisys(PathProject_ROI):
     '''
 
     # Leer Archivos de entrada
-    Value = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '1_CostFunction_NBS_Cap.csv'))
-    if Value:
-        CostFunNBS_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'1_CostFunction_NBS_Cap.csv'))
-        CostFunBaU_Cap  = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'2_CostFunction_BaU_Cap.csv'))
-
-        Value1 = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
-        if Value1:
-            CostFunNBS_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
-            CostFunBaU_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '4_CostFunction_BaU_PTAP.csv'))
-        else:
-            CostFunNBS_PTAP = CostFunNBS_Cap * 0
-            CostFunNBS_PTAP['Process'] = 'PTAP_NoData'
-            CostFunNBS_PTAP['Cost_Function'] = 0
-            CostFunBaU_PTAP = CostFunNBS_PTAP
-    else:
-        CostFunNBS_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'3_CostFunction_NBS_PTAP.csv'))
-        CostFunBaU_PTAP = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'4_CostFunction_BaU_PTAP.csv'))
-
-        CostFunNBS_Cap  = CostFunNBS_PTAP*0
-        CostFunNBS_Cap['Process'] = 'Intake_NoData'
-        CostFunNBS_Cap['Cost_Function'] = 0
-        CostFunBaU_Cap  = CostFunNBS_Cap
-
     CostNBS         = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'5_NBS_Cost.csv'))
     Porfolio        = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'6_Porfolio_NBS.csv'))
     TD              = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'7_Financial_Parmeters.csv'))
     TimeAnalisys    = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'8_Time.csv'))
     C_BaU           = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'9-CO2_BaU.csv'))
     C_NBS           = pd.read_csv( os.path.join(PathProject_ROI,INPUTS,'10-CO2_NBS.csv'))
+
+    Value = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '1_CostFunction_NBS_Cap.csv'))
+    if Value:
+        CostFunNBS_Cap = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '1_CostFunction_NBS_Cap.csv'))
+        CostFunBaU_Cap = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '2_CostFunction_BaU_Cap.csv'))
+
+        Tmp = CostFunBaU_Cap.columns
+        if Tmp.shape != (TimeAnalisys['Time_ROI'][0] + 2):
+            NameC = ['Process','Cost_Function']
+            for ki in range(1,TimeAnalisys['Time_ROI'][0] + 1):
+                NameC.append(ki)
+            Tmp = pd.DataFrame(columns=NameC, index=[0])
+            Tmp['Process'] = 'NoData'
+            Tmp['Cost_Function'] = 0
+            for ki in range(1, TimeAnalisys['Time_ROI'][0] + 1):
+                Tmp[ki] = 0
+
+            CostFunNBS_Cap = Tmp
+            CostFunBaU_Cap = Tmp
+
+        Value1 = os.path.exists(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
+        if Value1:
+            CostFunNBS_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
+            CostFunBaU_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '4_CostFunction_BaU_PTAP.csv'))
+
+            Tmp = CostFunNBS_PTAP.columns
+            if Tmp.shape != (TimeAnalisys['Time_ROI'][0] + 2):
+                NameC = ['Process', 'Cost_Function']
+                for ki in range(1, TimeAnalisys['Time_ROI'][0] + 1):
+                    NameC.append(ki)
+                Tmp = pd.DataFrame(columns=NameC, index=[0])
+                Tmp['Process'] = 'NoData'
+                Tmp['Cost_Function'] = 0
+                for ki in range(1, TimeAnalisys['Time_ROI'][0] + 1):
+                    Tmp[ki] = 0
+
+                CostFunNBS_PTAP = Tmp
+                CostFunBaU_PTAP = Tmp
+
+        else:
+            CostFunNBS_PTAP = CostFunNBS_Cap * 0
+            CostFunNBS_PTAP['Process'] = 'PTAP_NoData'
+            CostFunNBS_PTAP['Cost_Function'] = 0
+            CostFunBaU_PTAP = CostFunNBS_PTAP
+    else:
+        CostFunNBS_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '3_CostFunction_NBS_PTAP.csv'))
+        CostFunBaU_PTAP = pd.read_csv(os.path.join(PathProject_ROI, INPUTS, '4_CostFunction_BaU_PTAP.csv'))
+
+        Tmp = CostFunNBS_PTAP.columns
+        if Tmp.shape != (TimeAnalisys['Time_ROI'][0] + 2):
+            NameC = ['Process', 'Cost_Function']
+            for ki in range(1, TimeAnalisys['Time_ROI'][0] + 1):
+                NameC.append(ki)
+            Tmp = pd.DataFrame(columns=NameC, index=[0])
+            Tmp['Process'] = 'NoData'
+            Tmp['Cost_Function'] = 0
+            for ki in range(1, TimeAnalisys['Time_ROI'][0] + 1):
+                Tmp[ki] = 0
+
+            CostFunNBS_PTAP = Tmp
+            CostFunBaU_PTAP = Tmp
+
+        CostFunNBS_Cap = CostFunNBS_PTAP * 0
+        CostFunNBS_Cap['Process'] = 'Intake_NoData'
+        CostFunNBS_Cap['Cost_Function'] = 0
+        CostFunBaU_Cap = CostFunNBS_Cap
 
     # Calculo de Beneficio - Total
     Benefit_Cap     = CostFunBaU_Cap.values[:,2:].T - CostFunNBS_Cap.values[:,2:].T
@@ -268,5 +311,5 @@ def ROI_Analisys(PathProject_ROI):
 # -----------------------------------------------------------------------------------
 # Tester
 # -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\TNC\Desktop\Project'
+PathProject_ROI = r'C:\Users\TNC\Pictures\ROI_ROI\Project'
 ROI_Analisys(PathProject_ROI)
