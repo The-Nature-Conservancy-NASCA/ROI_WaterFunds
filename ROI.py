@@ -306,10 +306,3 @@ def ROI_Analisys(PathProject_ROI):
     Total_3.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '11_Cost_Sensitivity.csv'), index_label='Time')
     ROI.to_csv(os.path.join(PathProject_ROI, OUTPUTS, '12_ROI_Sensitivity.csv'))
     NPV.to_csv(os.path.join(PathProject_ROI,OUTPUTS,'13_NPV.csv'))
-
-
-# -----------------------------------------------------------------------------------
-# Tester
-# -----------------------------------------------------------------------------------
-PathProject_ROI = r'C:\Users\TNC\Pictures\ROI_ROI\Project'
-ROI_Analisys(PathProject_ROI)
