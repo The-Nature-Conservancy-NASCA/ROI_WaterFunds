@@ -93,6 +93,10 @@ def ROI_Analisys(PathProject_ROI):
     Benefit_Cap     = CostFunBaU_Cap.values[:,2:].T - CostFunNBS_Cap.values[:,2:].T
     Benefit_PTAP    = CostFunBaU_PTAP.values[:,2:].T - CostFunNBS_PTAP.values[:,2:].T
 
+    # Control para que los beneficios no sean negativos [Bug - 24-03-2023]
+    Benefit_Cap[Benefit_Cap < 0] = 0
+    Benefit_PTAP[Benefit_PTAP < 0] = 0
+    
     #CostFunNBS_Cap.values[:,2:].T
     '''
     ####################################################################################################################
@@ -220,9 +224,15 @@ def ROI_Analisys(PathProject_ROI):
 
     Total_9_0 = CostFunBaU_Cap.groupby(by='Process').sum() - CostFunNBS_Cap.groupby(by='Process').sum()
     del Total_9_0['Cost_Function']
+    
+    # Control para que los beneficios no sean negativos - [Bug - 24-03-2023]
+    Total_9_0[Total_9_0<0] = 0
 
     Total_10_0 = CostFunBaU_PTAP.groupby(by='Process').sum() - CostFunNBS_PTAP.groupby(by='Process').sum()
     del Total_10_0['Cost_Function']
+    
+    # Control para que los beneficios no sean negativos - [Bug - 24-03-2023]
+    Total_10_0[Total_10_0 < 0] = 0
 
     Total_11_0 = pd.DataFrame(data=Carbons,columns=['Carbons'],index=NameIndex)
 
