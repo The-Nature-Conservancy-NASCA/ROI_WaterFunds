@@ -143,7 +143,11 @@ def ROI_Analisys(PathProject_ROI):
 
     # Carbons
     Factor  = 44/12 #44 g/mol CO2 - 12 g/mol C
-    Carbons = Factor*(C_NBS.sum(1) - C_BaU.sum(1))*TD['Value'][5]
+    DifCO2_1 = (C_NBS.sum(1) - C_BaU.sum(1)) # Se estima la diferencia de almacenamiento de CO2 entre los dos ecenarios
+    DifCO2_2 = DifCO2_1.diff() # Se estima la diferencia de los diferenciales de alamcenamiento de CO2 por año
+    DifCO2_2[np.isnan(DifCO2_2)] = 0 # Todos los valores NaN son iguales a cero
+    DifCO2_2[DifCO2_2 < 0.001] = 0 # todos los valores por debajo de 0.001 se consideran cero
+    Carbons = Factor*DifCO2_2*TD['Value'][5] # Se pasa de CO2 a dinero
     Carbons = Carbons.values[1:]
 
     # Total de costo de procesos + Carbono
